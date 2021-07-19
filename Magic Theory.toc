@@ -1,0 +1,4 @@
+\contentsline {part}{I\hspace {1em}Structures}{1}%
+\contentsline {chapter}{\numberline {1}Card Advantage}{2}%
+\contentsline {section}{\numberline {1.1}Conditional Card Advantage}{4}%
+\contentsline {section}{\numberline {1.2}Net Card Advantage}{5}%

@@ -1,0 +1,401 @@
+\documentclass[1pt]{report}
+\title{On Iwase's Construction of a Counterexample to Ganea's Conjecture}
+\author{Curtis Toupin}
+\date{}
+#testbranch
+%%% Packages %%%
+\newcommand{\QpSn}{Q_p\times S^n}
+\usepackage[Glenn]{fncychap}
+\usepackage{fancyhdr}
+\fancyhf{}
+%\fancyhead[RE, RO]{\rightmark}
+%\fancyhead[LE, LO]{\leftmark}
+\fancyhead[LE, LO]{\rightmark}
+\cfoot{\thepage}
+\renewcommand{\chaptername}{Section}
+\usepackage[paperheight=9.25in, twoside, paperwidth=6.125in, top = 1.125in, bottom = 1.125in, outer = 0.9375in, inner = 0.9375in, binding offset = 0.25in]{geometry}
+\usepackage{amsfonts,amsmath}
+\usepackage{adjustbox}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{cancel}
+\usepackage{multirow}
+\usepackage{enumitem}
+\usepackage[all]{xy}
+\usepackage{tikz-cd}
+\usepackage{array}
+\usepackage{float}
+\usepackage{imakeidx}
+\tikzcdset{column sep/normal=1.3cm}
+\tikzcdset{row sep/normal=1.3cm}
+\usepackage{dsfont}
+\usepackage{bbm}
+\usepackage{chngpage}
+\usepackage{mathdots}
+\newcommand{\ptop}{\text{Top_2}}
+\newcommand{\htop}{\text{HTop}}
+\newcommand{\hptop}{\text{HPTop}}
+\newcommand{\Top}{\text{Top}}
+\newcommand{\Set}{\text{Set}}
+\newcommand{\hTop}{\text{hTop}}
+%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\usepackage[skins]{tcolorbox}
+\newtcolorbox{mybox}{sharp corners, rounded corners=southeast,arc is angular,arc=3mm, underlay={%
+    \path[fill=tcbcol@back!80!black] ([yshift=3mm]interior.south east)--++(-0.4,-0.1)--++(0.1,-0.2);
+    \path[draw=tcbcol@frame,shorten <=-0.05mm,shorten >=-0.05mm] ([yshift=3mm]interior.south east)--++(-0.4,-0.1)--++(0.1,-0.2);
+    \path[fill=yellow!50!black,draw=none] (interior.south west) rectangle node[white]{\Huge\bfseries !} ([xshift=4mm]interior.north west);
+    }, title=Abuse of Notation}
+    
+    \newtcolorbox{marker}[1][]{enhanced,
+  before skip=2mm,after skip=3mm,
+  boxrule=0.4pt,left=5mm,right=2mm,top=1mm,bottom=1mm,
+  sharp corners,rounded corners=southeast,arc is angular,arc=3mm,
+  underlay={%
+    \path[fill=tcbcol@back!80!black] ([yshift=3mm]interior.south east)--++(-0.4,-0.1)--++(0.1,-0.2);
+    \path[draw=tcbcol@frame,shorten <=-0.05mm,shorten >=-0.05mm] ([yshift=3mm]interior.south east)--++(-0.4,-0.1)--++(0.1,-0.2);
+    \path[fill=black!50,draw=none] (interior.south west) rectangle node[white]{\huge\bfseries !} ([xshift=4mm]interior.north west);
+    },
+  drop fuzzy shadow,#1}
+
+\newtcolorbox{rmkbox}{enhanced,attach boxed title to top left={xshift=10mm, yshift=-2.3mm,yshifttext=-1mm},
+  colback=gray!5!white,colframe=gray!75!black,colbacktitle=black,
+  title={\bfseries Remark},fonttitle=\bfseries,
+  boxed title style={size=small,colframe=black},drop fuzzy shadow,
+oversize=0.3cm,
+before={\vskip20pt\par\noindent},
+after={\par\vskip12pt}}
+
+\newtcolorbox{conjbox}{enhanced,attach boxed title to top left={xshift=10mm, yshift=-2.3mm,yshifttext=-1mm},
+  colback=gray!5!white,colframe=gray!75!black,colbacktitle=black,
+  title={\bfseries Ganea's Conjecture},fonttitle=\bfseries,
+  boxed title style={size=small,colframe=black},drop fuzzy shadow,
+oversize=0.3cm,
+before={\vskip20pt\par\noindent},
+after={\par\vskip12pt}}
+
+\newtcolorbox{thmbox}{enhanced,attach boxed title to top left={xshift=10mm, yshift=-2.3mm,yshifttext=-1mm},
+  colback=gray!5!white,colframe=gray!75!black,colbacktitle=black,
+  title={\bfseries Theorem},fonttitle=\bfseries,
+  boxed title style={size=small,colframe=black},drop fuzzy shadow,
+oversize=0.3cm,
+before={\vskip20pt\par\noindent},
+after={\par\vskip12pt}}
+
+\newtcolorbox{superbox}{freelance,frame code={},   interior titled code={
+  \fill[black!80]
+    ([xshift=0cm]title.south west) --
+    ([xshift=-8.5cm]title.south) -- 
+    ([xshift=-8.1cm, yshift=17pt]title.south) --
+    ([xshift=-5cm, yshift=17pt]title.south) --
+    ([xshift=-4.6cm]title.south) --
+    ([xshift=-0cm]title.south east) {[sharp corners] --
+    ([xshift=-0cm, yshift=-6pt]title.south east) -- 
+    ([xshift=0cm, yshift=-6pt]title.south west) } -- cycle;
+ \draw[gray,line width=1pt]
+    ([xshift=0cm]title.west|-frame.south west) --
+    ([xshift=0cm]title.south west) --
+    ([xshift=-8.5cm]title.south) -- 
+    ([xshift=-8.1cm, yshift=17pt]title.south) --
+    ([xshift=-5cm, yshift=17pt]title.south) --
+    ([xshift=-4.6cm]title.south) --
+    ([xshift=-0cm] title.south east) --
+    ([xshift=-0cm]title.east|-frame.south east) --
+    cycle;
+  \node at ([xshift=2cm,yshift=4pt,anchor=south]title.south) 
+    {\Large };  
+    	},
+    	title=\qquad {\bfseries Remark},
+top=14pt,
+before={\vskip24pt\par\noindent},
+after={\par\vskip12pt}
+    }
+    
+   \newtcolorbox[auto counter]{boxybox}{
+freelance,
+colback=white,
+frame code={},
+interior titled code={
+  \fill[rounded corners=5pt,gray!30]
+    (title.south west) --
+    (title.south) -- 
+    ([yshift=20pt]title.south) --
+    ([yshift=20pt,xshift=2cm]title.south) --
+    ([xshift=2cm]title.south) --
+    (title.south east) {[sharp corners] --
+    ([yshift=-6pt, xshift=-2cm]title.south east) -- 
+    ([yshift=-6pt]title.south west) } -- cycle;
+  \draw[rounded corners=5pt,gray,line width=1pt]
+    (title.west|-frame.south west) --
+    (title.south west) --
+    (title.south) -- 
+    ([yshift=20pt]title.south) --
+    ([yshift=20pt,xshift=4cm]title.south) --
+    ([xshift=4cm]title.south) --
+    (title.south east) --
+    (title.east|-frame.south east) --
+    cycle;
+  \node at ([xshift=2cm,yshift=4pt,anchor=south]title.south) 
+    {\sffamily\Large Remark};  
+  },
+title=Remark,
+top=12pt,
+fontupper=\sffamily\Large,
+oversize=0.5cm,
+before={\vskip24pt\par\noindent},
+after={\par\vskip12pt}
+}
+%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%% Theorems and Stuff %%%
+\newtheorem{thm}{Theorem}[chapter]
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{props}[thm]{Proposition}
+\newtheorem{defn}[thm]{Definition}
+\newtheorem{defns}[thm]{Definitions}
+\newtheorem{notn}[thm]{Notation}
+\newtheorem{cor}[thm]{Corollary}
+\newtheorem{rmk}[thm]{Remark}
+\newtheorem{rmks}[thm]{Remarks}
+\newtheorem{eg}[thm]{Example}
+\newtheorem{egs}[thm]{Examples}
+\newtheorem{lemma}[thm]{Lemma}
+\newcommand{\NB}{\underline{\bf N.B.}}
+%\newcommand{\notn}{\underline{\bf Notation:}}
+\newcommand{\ex}{{\bf exercise }}
+\newcommand{\pf}{{\it Proof:}}
+\newtheorem{conj}[thm]{Conjecture}
+\usepackage[thinlines]{easytable}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% Making Stuff Not Italics %%%
+\let\oldthm\thm
+\let\oldprop\prop
+\let\oldprops\props
+\let\olddefn\defn
+\let\olddefns\defns
+\let\oldcor\cor
+\let\oldrmk\rmk
+\let\oldrmks\rmks
+\let\oldlemma\lemma
+\let\oldeg\eg
+\let\oldnotn\notn
+\renewcommand{\thm}{\oldthm\normalfont}
+\renewcommand{\prop}{\oldprop\normalfont}
+\renewcommand{\props}{\oldprops\normalfont}
+\renewcommand{\defn}{\olddefn\normalfont}
+\renewcommand{\defns}{\olddefns\normalfont}
+\renewcommand{\cor}{\oldcor\normalfont}
+\renewcommand{\rmk}{\oldrmk\normalfont}
+\renewcommand{\rmks}{\oldrmks\normalfont}
+\renewcommand{\lemma}{\oldlemma\normalfont}
+\renewcommand{\eg}{\oldeg\normalfont}
+\renewcommand{\notn}{\oldnotn\normalfont}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% Theorems and Stuff %%%
+%\newcommand{\prop}{\section{Proposition}}
+%\newcommand{\props}{\section{Propositions}}
+%\newcommand{\defn}{\section{Definition}}
+%\newcommand{\defns}{\section{Definitions}}
+%\newcommand{\ex}{{\bf exercise }}
+%\newcommand{\eg}{\section{Example}}
+%\newcommand{\egg}[1]{\section{Example - {#1}}}
+%\newcommand{\egs}{\section{Examples}}
+%\newcommand{\thm}{\section{Theorem}}
+%\newcommand{\cor}{\section{Corollary}}
+%\newcommand{\rmk}{\subsection{Remark}}
+%\newcommand{\rmks}{\subsection{Remarks}}
+%\newcommand{\lemma}{\section{Lemma}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%%% Special Sets and Spaces %%%
+\newcommand{\Rone}{\mathbb{R}}
+\newcommand{\R}{\Rone}
+\newcommand{\Rtwo}{\mathbb{R}^2}
+\newcommand{\Rthree}{\mathbb{R}^3}
+\newcommand{\Rm}{\mathbb{R}^m}
+\newcommand{\Rp}{\mathbb{R}^p}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\C}{\mathbb{C}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\Q}{\mathbb{Q}}
+\newcommand{\F}{\mathbb{F}}
+\renewcommand{\S}{\mathbb{S}}
+\newcommand{\RP}[1]{\R P^{#1}}
+\newcommand{\CP}[1]{\C P^{#1}}
+\newcommand{\U}{\mathbb{U}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% Notation and Words %%%
+\newcommand{\tr}{\textnormal{Tr\,}}
+\newcommand{\cupp}{\textnormal{cup\,}}
+\newcommand{\cat}{\textnormal{cat\,}}
+\newcommand{\coker}{\textnormal{coker\,}}
+\newcommand{\nhood}{\textnormal{neighbourhood }}
+\newcommand{\im}{\textnormal{im\,}}
+\newcommand{\gl}{\textnormal{GL\,}}
+\newcommand{\spann}{\textnormal{span\,}}
+\newcommand{\sym}{\textnormal{Sym\,}}
+\newcommand{\alt}{\textnormal{Alt\,}}
+%\newcommand{\id}{\textnormal{id\,}}
+\newcommand{\id}{\mathds{1}}
+\newcommand{\ev}{\text{ev}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%% Personal Shorthand %%%
+\newcommand{\pb}{\arrow[dr,phantom,"\lrcorner",at start]}
+\newcommand{\po}{\arrow[ul,phantom,"\ulcorner",at start]}
+\newcommand{\<}{\langle}
+\renewcommand{\>}{\rangle}
+\newcommand{\sums}{\sum\limits}
+\newcommand{\tens}{\otimes}
+\renewcommand{\L}{\Lambda}
+\newcommand{\del}{\partial}
+\renewcommand{\a}{\alpha}
+\renewcommand{\b}{\beta}
+\renewcommand{\r}{\rho}
+\newcommand{\g}{\mathfrak{g}}
+\renewcommand{\l}{\mathfrak{l}}
+\newcommand{\s}{\mathfrak{s}}
+\newcommand{\p}{\mathfrak{p}}
+\newcommand{\PP}{\mathcal{P}}
+\newcommand{\AAA}{\mathfrak{A}}
+\newcommand{\HH}{\mathcal{H}}
+\newcommand{\fraku}{\mathfrak{u}}
+\renewcommand{\u}{\underline}
+\renewcommand{\bar}{\overline}
+\newcommand{\sm}{\setminus}
+\newcommand{\into}{\hookrightarrow}
+\newcommand{\UU}{\mathcal{U}}
+\newcommand{\VV}{\mathcal{V}}
+\renewcommand{\HH}{\mathcal{H}}
+\newcommand{\WW}{\mathcal{W}}
+\newcommand{\A}{\mathcal{A}}
+\newcommand{\FF}{\mathcal{F}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\NN}{\mathcal{N}}
+\newcommand{\intoverr}{\int\limits_{-\infty}^\infty}
+\newcommand{\pois}{\text{Pois}}
+\newcommand{\gam}{\text{Gamma}}
+\newcommand{\Exp}{\text{Exp}}
+\newcommand{\erf}{\text{erf}}
+\newcommand{\Bet}{\text{Beta}}
+\newcommand{\Logistic}{\text{Logistic}}
+\newcommand{\cov}{\text{cov}}
+\let\oldphi\phi
+\let\phi\varphi
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{pdfpages}
+%%% Custom Commands %%%
+\newcommand{\quot}[2]{{\raisebox{.2em}{$#1$}\left/\raisebox{-.2em}{$#2$}\right.}}
+\newcommand{\qed}{\begin{flushright} $\square$ \end{flushright}}
+\newcommand{\rightsquare}{\begin{flushright} $\square$ \end{flushright}}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\makeindex
+
+\begin{document}
+\pagestyle{fancy}
+%\maketitle %this makes the title page%
+\begin{titlepage}
+        \begin{center}
+        \vspace*{1.0cm}
+
+        \huge
+        {\bf Magic Theory}
+
+        \vspace*{1.25cm}
+
+        \Large
+        Written by Joop \\
+        Arranged by Curtis Toupin \\
+
+        \vspace*{1.5cm}
+
+        \vspace*{2.5cm}
+        \vspace*{0.5cm}
+
+        {Curtis Toupin}, Ottawa, Canada, 2020\\
+        \end{center}
+\end{titlepage}
+\shipout\null
+\setcounter{page}{1}
+\pagenumbering{roman}
+\setcounter{tocdepth}{1}
+\begin{rmkbox}
+From time to time, there will be remarks that contain vital information for the reader. When such a remark arises, it will be contained in a box like this one.
+\end{rmkbox}
+\newpage
+\tableofcontents
+\newpage
+\setcounter{page}{1}
+\pagenumbering{arabic}
+\part{Structures}
+\chapter{Card Advantage}
+Suppose we have a Divination in hand which we are planning on casting. Colloquially we would call divination a 2-for-1 as it provides access to two new cards at the cost of 1. Similarly, casting a mind rot would be called a 2-for-1 as it reduces the number of cards your opponent has access to by 2 and costs you only 1 card. We would like to extend this definition to be able to apply in cases which are not so intuitive. For example, if your opponent has a Divination on the stack and you counter it, was that a 2-for-1 or a 1-for-1? In this section we make rigorous the definition of card advantage in order to talk more clearly about these scenarios.\\
+\\
+Suppose we are considering a game action $\alpha$. Let $G$ be the game state immediately before taking action $\alpha$ and let $S = \{s_i\}$ be the stack at that time. Consider the game state $G'$, defined to be the game state as of the next time a player would receive priority following the resolution of action $\alpha$, and at which point the stack $S' = \{s'_j\} \subseteq S$. Define the following quantities
+\begin{itemize}
+\item $m$, the number of cards to which you gained access between $G$ and $G'$,
+\item $n$, the number of cards to which your opponent gained access between $G$ and $G'$,
+\item $p$, the number of cards to which you lost access between $G$ and $G'$, and
+\item $q$, the number of cards to which your opponent lost access between $G$ and $G'$.
+\end{itemize}
+In the above, cards on the stack when an action is taken are considered to have the value they would have if they were to resolve. For example, a Divination currently on the stack is considered to be two cards that a player would gain, a Mind Rot on the stack is considered to be two cards at the targeted player would lose, and so on. \\
+\\
+We define a function $\chi : A \to \quot{\Z \times \Z}{\langle (1,1)\rangle}$ where $A$ is the space of game actions available by
+$$\chi(\alpha) = (m + q, n + p).$$
+The function $\chi$ determines this measure of card advantage. For convenience, we will often conflate the equivalence class $[(a,b)] \in \quot{\Z \times \Z}{\langle(1,1)\rangle}$ with the representative element $(a,b) \in \Z\times \Z$.
+\begin{rmkbox}
+In this case, we will often say that $\alpha$ is a $(m+q)$-for-$(n+p)$ to mean the same thing, for readability.
+\end{rmkbox}
+\begin{egs}
+\end{egs}
+\begin{enumerate}
+\item As above, consider the case where we are casting a divination on an empty stack. When a player would receive priority next following the resolution of Divination, you have gained two cards, and lost one. Meanwhile your opponent has neither gained nor lost cards. Thus 
+$$\chi(\text{cast Divination}) = (2,1)$$
+or, again, casting Divination is a 2-for-1.
+\item As above, consider the case where we are casting Mind Rot on an empty stack. When a player would receive priority next following the resolution of Mind Rot, you have gained no cards, but have lost one. Meanwhile your opponent has gained no cards and has lost 2. Thus,
+$$\chi(\text{cast Mind Rot}) = (2,1)$$
+or casting Mind Rot is a 2-for-1.
+\end{enumerate}
+\begin{prop}
+As one would hope, this measure admits a symmetry such that if
+$$\chi(\text{you take action }\alpha) = (a,b)$$
+then
+$$\chi(\text{opponent takes action }\alpha) = (b,a).$$
+\end{prop}
+\section{Conditional Card Advantage}
+However it is not always straightforward or sufficient to describe the card advantage of a game action in a vacuum. For example, one would typically consider casting Unsummon a 0 for 1 as you gain no cards despite going down 1 yourself. However, if the creature being targeted by the Unsummon is a Phantasmal Image, then it will be a proper 1-for-1 as the opponent loses access to the Phantasmal Image. We can take this into account by \emph{conditioning} $\chi$ on some relevant piece $\omega$ of information about the starting game state $G$. This is written as
+$$\chi(\alpha \mid \omega)$$
+and follows the same calculation. For example, if we consider the case where an opponent has cast a Divination from hand we have the option to counter the Divination, then between the game states $G$ and $G'$, you are down 1 card, the counterspell which was used, and your opponent is down 2 cards, and neither player has gained cards. In this case, our calculation yields
+$$\chi(\text{cast counterspell} \mid \text{targeting Divination}) = (2, 1)$$
+which is to say that the act of countering a Divination is a 2-for-1, despite the fact that $\chi(\text{counterspell}) = (1,1)$.
+\begin{rmkbox}
+For convenience, we will often write the card advantage from the game action of casting a specific card as the card advantage of the card itself. As such,
+$$\chi(\text{counterspell}) = \chi(\text{cast counterspell}) = (1,1)$$
+\end{rmkbox}
+\section{Net Card Advantage}
+Now we know that casting a Divination is a 2-for-1, and countering a Divination is a 2-for-1. The question becomes: what is the net card advantage from the entire chain of events starting with one player casting Divination and ending with another countering it? \\
+\\
+Consider a chain of events $\{\alpha_1, \dots, \alpha_k\}$. The net card advantage gained from this chain is defined as
+\begin{align*}
+\chi(\{\alpha_1, \dots ,\alpha_k\}) = \chi(\alpha_1) + \chi(\alpha_2 \mid \omega_1) &+ \chi(\alpha_3 \mid \omega_1, \omega_2) + \cdots \\
+& \quad \cdots + \chi(\alpha_k \mid \omega_1, \dots, \omega_{k-1})
+\end{align*} 
+where the $\omega_i$ are conditions arising from knowledge of the $\alpha_i$. Thus, the net card advantage of one player casting a Divination and their opponent countering it is
+\begin{align*}
+\chi&(\{\text{cast Divination}, \text{opponent casts counterspell}\}) \\
+&= \chi(\text{cast Divination}) + \\
+& \qquad \chi(\text{opponent casts counterspell} \mid \text{targeting Divination})\\
+& = (2,1) + (1,2)\\
+& = (3,3)\\
+& = (1,1)
+\end{align*}
+as one would expect. Note that in the last line we took advantage of the fact that we are in the quotient group $\quot{\Z\times\Z}{\langle(1,1)\rangle}$.
+\end{document}
